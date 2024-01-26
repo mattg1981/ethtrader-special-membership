@@ -1,0 +1,12 @@
+{
+	"name": "NFT v9 #2",
+	"description": "r/EthTrader Special Membership. A detailed description about #2 can go here.  This nft was originally minted on XYZ date",
+	"image": "ipfs://bafkreieiqwfgsm4kltmarjywmbo42m6gvzocdijqsb6b2rqsjazli36iki",
+	"attributes":[
+		{
+			"display_type": "date",
+			"trait_type": "Expiration",
+			"value": 1709743115
+		}
+	]
+}
