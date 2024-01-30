@@ -18,7 +18,7 @@ def create_nft_meta(tokenId, expiration):
         "description": f"r/EthTrader Special Membership (Standard)\n\n"
                        f"By minting an nft in this series, you can help support the EthTrader project. It also grants you special features in Reddit and roles in Discord."
                        f"Please be sure to check the expiration date before purchasing!\n\n"
-                       f"To learn more and verify the expiration date on this NFT, refresh this metadata or visit {PROJECT_URL}.\n\n"
+                       f"To verify the expiration date on this NFT, refresh this metadata or visit {PROJECT_URL}.\n\n"
                        f"Visit our community at {COMMUNITY_URL}",
         "image": "ipfs://bafkreieiqwfgsm4kltmarjywmbo42m6gvzocdijqsb6b2rqsjazli36iki",
         "attributes": [
@@ -102,7 +102,8 @@ if __name__ == '__main__':
     events = etsm_contract.events.UpdateMeta().get_logs(fromBlock=latest_block + 1)
     for event in events:
         create_nft_meta(event.args.tokenId, event.args.expirationDate)
-        curl_commands += f"echo update token: {event.args.tokenId}; curl --request POST --url https://api.opensea.io/api/v2/chain/arbitrum/contract/{ETSM_ADDRESS}/nfts/{event.args.tokenId}/refresh\n\n"
+        curl_commands += f"echo update token: {event.args.tokenId};\n"
+        curl_commands += f'curl --request POST --header "X-API-KEY: {os.getenv("OPENSEA_API")}" --url https://api.opensea.io/api/v2/chain/arbitrum_sepolia/contract/{ETSM_ADDRESS}/nfts/{event.args.tokenId}/refresh\n\n'
 
     with sqlite3.connect("etsm.db") as db:
         sql_insert = """

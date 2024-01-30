@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract NFTV14 is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl {
+contract NFTV15 is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl {
     uint256 private _nextTokenId = 1;
     uint256 public _pricePerDay = 0.0001 ether;
     //address public _multisigAddress = 0x439ceE4cC4EcBD75DC08D9a17E92bDdCc11CDb8C;
@@ -24,7 +24,7 @@ contract NFTV14 is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl {
     event UpdateMeta(address indexed subscriber, address purchaser, uint256 tokenId, uint256 expirationDate);
     event PriceChanged(address changedBy, uint256 price);
 
-    constructor() ERC721("NFT v14", "NFT14") {
+    constructor() ERC721("NFT v15", "NFT15") {
         _baseUrl = "https://raw.githubusercontent.com/mattg1981/ethtrader-special-membership/main/meta/";
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -208,13 +208,7 @@ contract NFTV14 is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl {
 
         _tokenExpiration[tokenId] = newExpiration ;
 
-        // two emits
-        //   - MetadataUpdate is an ERC-4906 standard that markets such as
-        //     OpenSea use to flag metadata updates
-        //   - UpdateMeta is our custom event with additional information used
-        //     to build the metadata.json file
         emit UpdateMeta(ownerOf(tokenId), msg.sender, tokenId, newExpiration);
-        emit MetadataUpdate(tokenId);
         return newExpiration;
     }
 
@@ -268,13 +262,7 @@ contract NFTV14 is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl {
 
         _tokenExpiration[tokenId] = newExpiration ;
 
-        // two emits
-        //   - MetadataUpdate is an ERC-4906 standard that markets such as
-        //     OpenSea use to flag metadata updates
-        //   - UpdateMeta is our custom event with additional information used
-        //     to build the metadata.json file
         emit UpdateMeta(ownerOf(tokenId), msg.sender, tokenId, newExpiration);
-        emit MetadataUpdate(tokenId);
         return newExpiration;
     }
 
