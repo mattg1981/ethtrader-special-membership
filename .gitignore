@@ -1,4 +1,4 @@
 /.env
 /venv/
 /logs
-etsm.db
+/etsm.db
