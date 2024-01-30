@@ -2,8 +2,8 @@ import json
 import logging
 import os
 import sqlite3
-from logging.handlers import RotatingFileHandler
 
+from logging.handlers import RotatingFileHandler
 from dotenv import load_dotenv
 from web3 import Web3
 
@@ -35,13 +35,20 @@ def create_nft_meta(tokenId, expiration):
     if os.path.exists(meta_file_location):
         os.remove(meta_file_location)
 
-    with open(meta_file_location, 'w') as f:
-        json.dump(nft_meta, f, indent=4)
+    with open(meta_file_location, 'w') as j:
+        json.dump(nft_meta, j, indent=4)
 
 
 if __name__ == '__main__':
     # load environment variables
     load_dotenv()
+
+    # remove old curl command file
+    curl_commands = "#!/bin/bash\n\n"
+    curl_file_location = f"curl/opensea.sh"
+
+    if os.path.exists(curl_file_location):
+        os.remove(curl_file_location)
 
     # set up logging
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -95,9 +102,7 @@ if __name__ == '__main__':
     events = etsm_contract.events.UpdateMeta().get_logs(fromBlock=latest_block + 1)
     for event in events:
         create_nft_meta(event.args.tokenId, event.args.expirationDate)
-
-        if event.blockNumber > max_block:
-            max_block = event.blockNumber
+        curl_commands += f"echo update token: {event.args.tokenId}; curl --request POST --url https://api.opensea.io/api/v2/chain/arbitrum/contract/{ETSM_ADDRESS}/nfts/{event.args.tokenId}/refresh\n\n"
 
     with sqlite3.connect("etsm.db") as db:
         sql_insert = """
@@ -108,3 +113,6 @@ if __name__ == '__main__':
         db.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
         cur = db.cursor()
         cur.execute(sql_insert, [max_block])
+
+    with open(curl_file_location, 'w') as curl:
+        curl.write(curl_commands)
