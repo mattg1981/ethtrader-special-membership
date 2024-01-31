@@ -1,12 +1,12 @@
 {
-    "name": "EthTrader Special Membership (Standard) #1",
+    "name": "EthTrader Special Membership (Standard) #2",
     "description": "r/EthTrader Special Membership (Standard)\n\nBy minting an nft in this series, you can help support the EthTrader project. It also grants you special features in Reddit and roles in Discord.Please be sure to check the expiration date before purchasing!\n\nTo verify the expiration date on this NFT, refresh this metadata or visit <SPECIAL_MEMBERSHIP_SITE>.\n\nVisit our community at https://www.reddit.com/r/EthTrader",
     "image": "ipfs://bafkreieiqwfgsm4kltmarjywmbo42m6gvzocdijqsb6b2rqsjazli36iki",
     "attributes": [
         {
             "display_type": "date",
             "trait_type": "Expiration",
-            "value": 1711900693
+            "value": 1709318497
         }
     ]
 }
